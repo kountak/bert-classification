@@ -2,7 +2,7 @@
 Ce répertoire est un exercice  pour illustrer l'implémentation du modèle BERT de HugginFace.  
 
 
-## bert-classification.py
+## I. bert-classification.py
 Ce script Python implémente et entraîne un modèle BERT personnalisé pour la classification de texte à partir de données IMDB. Voici un résumé des composants et des étapes du script :
 
 ### Importations
@@ -34,11 +34,31 @@ Ce script Python implémente et entraîne un modèle BERT personnalisé pour la 
    - Crée une instance du modèle BERT personnalisé, définit la fonction de perte et l'optimiseur.
    - Entraîne et évalue le modèle sur plusieurs époques.
    - Sauvegarde les poids du modèle après l'entraînement.
+  
+Le lien google drive pour le modèle est https://drive.google.com/file/d/1-KU489KJs40N-M8yZz1S2zPAAc7JVTTR/view?usp=sharing
 
-### Exécution
-- La fonction `main()` est exécutée si le script est lancé directement.
+# II. demo.py  
+
+1. **Classe `CustomBert`** :
+   - **Initialisation** : Charge un modèle BERT pré-entraîné et ajoute un classifieur linéaire pour 6 classes.
+   - **Méthode `forward(input_ids, attention_mask)`** : Passe les inputs dans BERT et le classifieur pour obtenir les prédictions.
+
+2. **Chargement du modèle** :
+   - Crée une instance du modèle `CustomBert`.
+   - Charge les poids du modèle sauvegardés à partir du fichier `my_custom_bert_kk.pth`. Le modèle étant entrainer sur le GPU de google colab, on lui précise l'option `map_location=torch.device('cpu')` vu que l'on veut lancer le démo sur le cpu.
+
+3. **Fonction `classifier_fn(text: str)`** :
+   - Définition des labels de classe.
+   - Tokenise le texte d'entrée avec un tokenizer BERT.
+   - Passe les inputs dans le modèle pour obtenir les prédictions.
+   - Retourne le label de classe prédite.
+
+4. **Interface utilisateur avec Gradio** :
+   - Crée une interface `gr.Interface` avec la fonction `classifier_fn`.
+   - Définit l'entrée comme du texte et la sortie comme du texte.
+   - Lance l'interface.
 
 
-https://drive.google.com/file/d/1-KU489KJs40N-M8yZz1S2zPAAc7JVTTR/view?usp=sharing
+
 
 http://127.0.0.1:4445/predict
