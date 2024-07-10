@@ -58,7 +58,41 @@ Le lien google drive pour le modèle est https://drive.google.com/file/d/1-KU489
    - Définit l'entrée comme du texte et la sortie comme du texte.
    - Lance l'interface.
 
+# III. api.py
+Ce script Python crée une API REST avec FastAPI pour classifier des textes à l'aide d'un modèle BERT personnalisé. Voici un résumé des composants et des étapes du script :
+
+
+### Composants
+
+1. **Initialisation de FastAPI** :
+   - Création d'une instance de l'application FastAPI.
+
+2. **Classe `RequestPost`** :
+   - Définition d'un modèle de requête Pydantic pour valider le format des données d'entrée (`text`).
+
+3. **Classe `CustomBert`** :
+   - **Initialisation** : Charge un modèle BERT pré-entraîné et ajoute un classifieur linéaire pour 6 classes.
+   - **Méthode `forward(input_ids, attention_mask)`** : Passe les inputs dans BERT et le classifieur pour obtenir les prédictions.
+
+4. **Chargement du modèle** :
+   - Crée une instance du modèle `CustomBert`.
+   - Charge les poids du modèle sauvegardés à partir du fichier `my_custom_bert_kk.pth`.
+
+5. **Fonction `classifier_fn(text: str)`** :
+   - Définition des labels de classe.
+   - Tokenise le texte d'entrée avec un tokenizer BERT.
+   - Passe les inputs dans le modèle pour obtenir les prédictions.
+   - Retourne le label de classe prédite.
+
+6. **Endpoint FastAPI** :
+   - Définit un endpoint POST `/predict` qui prend une requête de type `RequestPost`.
+   - Utilise la fonction `classifier_fn` pour prédire la classe du texte et retourne le résultat.
+
+7. **Exécution de l'application** :
+   - Utilise Uvicorn pour lancer l'application FastAPI sur l'hôte `127.0.0.1` et le port `4445`.
+
+### Exécution
+- Le script démarre une API FastAPI qui permet de poster des textes pour obtenir des prédictions de classe via un modèle BERT et l'endpoint se trouve sur http://127.0.0.1:4445/predict.
 
 
 
-http://127.0.0.1:4445/predict
